@@ -18,3 +18,6 @@ ascii_art = '''
 ░ ░       ░            ░  ░  ░   ░  ░   ░         ░  ░    ░ ░  ░ ░      ░  ░   
 ░                                                              ░               
 '''
+
+key = Fernet.generate_key()
+cipher_suite = Fernet(key)
