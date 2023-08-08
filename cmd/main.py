@@ -35,3 +35,14 @@ def encrypt_item(path):
     
     encrypted_items.append(encrypted_path)
     return encrypted_path
+  
+def decrypt_item(encrypted_path):
+  with open(encrypted_path, "rb") as encrypted_file:
+    encrypted_data = encrypted_file.read()
+    decrypted_data = cipher_suite.decrypt(encrypted_data)
+    
+    decrypted_path = f"decrypted_{os.path.basename(encrypted_path)}"
+    with open(decrypted_path, "wb") as decrypted_file:
+      decrypted_file.write(decrypted_data)
+    
+    return decrypted_path
