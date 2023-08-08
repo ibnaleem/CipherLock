@@ -57,3 +57,13 @@ def main_menu():
     console.print("1. Encrypt Files      2. Show Encrypted Items     3. Decrypt Files     4. Exit", justify="center")
         
     choice = input("Enter your choice: ")
+
+    if choice == "1":
+      path = input("Enter the path of the file to encrypt: ")
+      if os.path.exists(path):
+        encrypted_path = encrypt_item(path)
+        console.print(f"{path} encrypted and saved as {encrypted_path}", style="green")
+        input("Press Enter to continue...")
+      else:
+        console.print("File not found.", style=red_bold)
+        input("Press Enter to continue...")
