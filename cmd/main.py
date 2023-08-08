@@ -97,3 +97,12 @@ def main_menu():
         decrypted_path = decrypt_item(encrypted_items[item_index])
         console.print(f"{encrypted_items[item_index]} decrypted and saved as {decrypted_path}", style="green")
         input("Press Enter to continue...")
+
+    elif choice == "4":
+      sys.exit(0)
+    else:
+      console.print("Invalid choice. Please choose a valid option.", style=red_bold)
+      input("Press Enter to continue...")
+
+if __name__ == "__main__":
+    main_menu()
