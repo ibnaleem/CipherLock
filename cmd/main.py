@@ -67,3 +67,17 @@ def main_menu():
       else:
         console.print("File not found.", style=red_bold)
         input("Press Enter to continue...")
+
+    elif choice == "2":
+      os.system("clear" if not os.name == 'nt' else "cls")
+      console.print(ascii_art, justify="center", style="#D3869B bold")
+      console.print("[cyan]:: Encrypted Items ::[cyan]\n", justify="center", end="")
+      terminal_width = console.width
+
+      table = Table(show_header=True, header_style="bold magenta")
+      table.add_column("File", style="dim", width=int(terminal_width * 0.5), justify="center")
+      table.add_column("Status", style="dim", width=int(terminal_width * 0.5), justify="center")
+      for item in encrypted_items:
+        table.add_row(item, "Encrypted", style="green")
+      console.print(table)
+      input("\nPress Enter to continue...")
