@@ -46,3 +46,14 @@ def decrypt_item(encrypted_path):
       decrypted_file.write(decrypted_data)
     
     return decrypted_path
+  
+def main_menu():
+  console = Console()
+
+  while True:
+    os.system("clear" if not os.name == 'nt' else "cls")
+    console.print(ascii_art, justify="center", style="#D3869B bold")
+    console.print("[cyan]:: Encrypt Your Files & Directories | Run with Admin Perms ::[cyan]\n", justify="center", end="")
+    console.print("1. Encrypt Files      2. Show Encrypted Items     3. Decrypt Files     4. Exit", justify="center")
+        
+    choice = input("Enter your choice: ")
