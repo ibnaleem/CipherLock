@@ -81,3 +81,19 @@ def main_menu():
         table.add_row(item, "Encrypted", style="green")
       console.print(table)
       input("\nPress Enter to continue...")
+
+    if choice == "3":
+      os.system("clear" if not os.name == 'nt' else "cls")
+      console.print(ascii_art, justify="center", style="#D3869B bold")
+      console.print("[cyan]:: Decrypt Items ::[cyan]\n", justify="center", end="")
+    
+      for idx, item in enumerate(encrypted_items):
+        console.print(f"{idx + 1}. {item}")
+    
+      decrypt_choice = input("Enter the number of the item to decrypt: ")
+    
+      if decrypt_choice.isdigit() and int(decrypt_choice) >= 1 and int(decrypt_choice) <= len(encrypted_items):
+        item_index = int(decrypt_choice) - 1
+        decrypted_path = decrypt_item(encrypted_items[item_index])
+        console.print(f"{encrypted_items[item_index]} decrypted and saved as {decrypted_path}", style="green")
+        input("Press Enter to continue...")
