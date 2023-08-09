@@ -40,6 +40,9 @@ def encrypt_item(path, password):
 
     # Encrypt data
     encrypted_data, tag = cipher_config.encrypt_and_digest(bytes(data, 'utf-8'))
+
+    with open(path, "wb") as encrypted_file:  # Open the original file for writing
+        encrypted_file.write(salt + tag + encrypted_data)
   
 def decrypt_item(encrypted_path):
   with open(encrypted_path, "rb") as encrypted_file:
