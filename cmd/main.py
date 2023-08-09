@@ -47,6 +47,8 @@ def encrypt_item(path, password):
 
     encrypted_list.append(path)
 
+    return path
+
   
 def decrypt_item(path, password):
   with open(path, "rb") as encrypted_file:
@@ -71,6 +73,8 @@ def decrypt_item(path, password):
         original_file.write(decrypted_data)  
 
     decrypted_list.append(path)
+
+    return path
   
 def main_menu():
   console = Console()
@@ -79,7 +83,7 @@ def main_menu():
     os.system("clear" if not os.name == 'nt' else "cls")
     console.print(ascii_art, justify="center", style="#D3869B bold")
     console.print("[cyan]:: Encrypt Your Files & Directories | Run with Admin Perms ::[cyan]\n", justify="center", end="")
-    console.print("1. Encrypt Files      2. Show Encrypted Items     3. Decrypt Files     4. Exit", justify="center")
+    console.print("1. Encrypt Files      2. Show Encrypted Items     3. Decrypt Files     4. Show Decrypted Items     5. Exit", justify="center")
         
     choice = input("Enter your choice: ")
 
