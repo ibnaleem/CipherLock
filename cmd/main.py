@@ -24,7 +24,7 @@ ascii_art = '''
 encrypted_items = []
 
 def encrypt_item(path, password):
-  with open(path, "rb") as file:
+  with open(path, "wb") as file:
     
     # Read data
     data = file.read()
@@ -38,14 +38,8 @@ def encrypt_item(path, password):
     # Create cipher config
     cipher_config = AES.new(private_key, AES.MODE_GCM)
 
-    
-    
-    encrypted_path = f"encrypted_{os.path.basename(path)}"
-    with open(encrypted_path, "wb") as encrypted_file:
-      encrypted_file.write(encrypted_data)
-    
-    encrypted_items.append(encrypted_path)
-    return encrypted_path
+    # Encrypt data
+    encrypted_data, tag = cipher_config.encrypt_and_digest(bytes(data, 'utf-8'))
   
 def decrypt_item(encrypted_path):
   with open(encrypted_path, "rb") as encrypted_file:
