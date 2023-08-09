@@ -44,16 +44,11 @@ def encrypt_item(path, password):
         encrypted_file.write(salt + tag + encrypted_data)
 
   
-def decrypt_item(encrypted_path):
-  with open(encrypted_path, "rb") as encrypted_file:
+def decrypt_item(path, password):
+  with open(path, "rb") as encrypted_file:
+
+    # Read data
     encrypted_data = encrypted_file.read()
-    decrypted_data = cipher_suite.decrypt(encrypted_data)
-    
-    decrypted_path = f"decrypted_{os.path.basename(encrypted_path)}"
-    with open(decrypted_path, "wb") as decrypted_file:
-      decrypted_file.write(decrypted_data)
-    
-    return decrypted_path
   
 def main_menu():
   console = Console()
