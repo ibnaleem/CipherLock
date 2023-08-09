@@ -22,6 +22,7 @@ ascii_art = '''
 '''
 
 encrypted_list = []
+decrypted_list = []
 
 def encrypt_item(path, password):
   with open(path, "wb") as file:
@@ -69,6 +70,8 @@ def decrypt_item(path, password):
     # Overwrite file
     with open(path, "wb") as original_file:  
         original_file.write(decrypted_data)  
+
+    decrypted_list.append(path)
   
 def main_menu():
   console = Console()
