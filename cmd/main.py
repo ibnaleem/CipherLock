@@ -34,6 +34,11 @@ def encrypt_item(path, password):
 
     # Use Scrypt KDF to create a private key from the password
     private_key = hashlib.scrypt(password.encode(), salt=salt, n=2**14, r=8, p=1, dklen=32)
+
+    # Create cipher config
+    cipher_config = AES.new(private_key, AES.MODE_GCM)
+
+    
     
     encrypted_path = f"encrypted_{os.path.basename(path)}"
     with open(encrypted_path, "wb") as encrypted_file:
