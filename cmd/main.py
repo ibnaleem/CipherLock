@@ -25,7 +25,7 @@ encrypted_list = []
 decrypted_list = []
 
 def encrypt_item(path, password):
-  with open(path, "wb") as file:
+  with open(path, "rb") as file:
     
     # Read data
     data = file.read()
