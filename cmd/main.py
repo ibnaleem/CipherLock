@@ -25,10 +25,9 @@ encrypted_list = []
 decrypted_list = []
 
 def encrypt_item(path, password):
-  with open(path, "rb") as file:
-    
-    # Read data
-    data = file.read()
+    with open(path, "rb") as file:
+        # Read data
+        data = file.read()
     
     # Generate a random salt
     salt = get_random_bytes(AES.block_size)
@@ -51,30 +50,28 @@ def encrypt_item(path, password):
 
   
 def decrypt_item(path, password):
-  with open(path, "rb") as encrypted_file:
+    with open(path, "rb") as encrypted_file:
+        encrypted_data = encrypted_file.read()
 
-    # Read data
-    encrypted_data = encrypted_file.read()
+        salt = encrypted_data[:AES.block_size]
+        tag = encrypted_data[AES.block_size:AES.block_size+16]
+        ciphertext = encrypted_data[AES.block_size+16:]
 
-    salt = encrypted_data[:AES.block_size] # Obtain salt
-    ciphertext = encrypted_data[AES.block_size+16] # Obtain ciphertext
+        private_key = hashlib.scrypt(password.encode(), salt=salt, n=2**14, r=8, p=1, dklen=32)
 
-    # Use Scrypt KDF to obtain a private key from the password
-    private_key = hashlib.scrypt(password.encode(), salt=salt, n=2**14, r=8, p=1, dklen=32)
+        cipher_config = AES.new(private_key, AES.MODE_GCM, nonce=salt)
 
-    # Create cipher config with salt
-    cipher_config = AES.new(private_key, AES.MODE_GCM, nonce=salt)
+        try:
+            decrypted_data = cipher_config.decrypt_and_verify(ciphertext, tag)
+            with open(path, "wb") as original_file:
+                original_file.write(decrypted_data)
+            decrypted_list.append(path)
+            return path
+        except ValueError as e:
+            print(f"MAC check failed: {e}")
+            return None  # Return None to indicate decryption failure
 
-    # Decrypt data
-    decrypted_data = cipher_config.decrypt(ciphertext)
-    
-    # Overwrite file
-    with open(path, "wb") as original_file:  
-        original_file.write(decrypted_data)  
 
-    decrypted_list.append(path)
-
-    return path
   
 def main_menu():
   console = Console()
