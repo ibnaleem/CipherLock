@@ -60,6 +60,12 @@ def decrypt_item(path, password):
     # Create cipher config with salt
     cipher_config = AES.new(private_key, AES.MODE_GCM, nonce=salt)
 
+    # Decrypt data
+    decrypted_data = cipher_config.decrypt(ciphertext)
+    
+    # Overwrite file
+    with open(path, "wb") as original_file:  
+        original_file.write(decrypted_data)  
   
 def main_menu():
   console = Console()
