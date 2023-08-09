@@ -57,6 +57,9 @@ def decrypt_item(path, password):
     # Use Scrypt KDF to obtain a private key from the password
     private_key = hashlib.scrypt(password.encode(), salt=salt, n=2**14, r=8, p=1, dklen=32)
 
+    # Create cipher config with salt
+    cipher_config = AES.new(private_key, AES.MODE_GCM, nonce=salt)
+
   
 def main_menu():
   console = Console()
