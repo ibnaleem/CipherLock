@@ -23,10 +23,14 @@ ascii_art = '''
 
 encrypted_items = []
 
-def encrypt_item(path):
+def encrypt_item(path, password):
   with open(path, "rb") as file:
+    
+    # Read data
     data = file.read()
-    encrypted_data = cipher_suite.encrypt(data)
+    
+    # Generate a random salt
+    salt = get_random_bytes(AES.block_size)
     
     encrypted_path = f"encrypted_{os.path.basename(path)}"
     with open(encrypted_path, "wb") as encrypted_file:
