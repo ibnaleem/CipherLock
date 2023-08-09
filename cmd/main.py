@@ -54,6 +54,9 @@ def decrypt_item(path, password):
     tag = encrypted_data[AES.block_size:AES.block_size+16] # Obtain tag
     ciphertext = encrypted_data[AES.block_size+16] # Obtain ciphertext
 
+    # Use Scrypt KDF to obtain a private key from the password
+    private_key = hashlib.scrypt(password.encode(), salt=salt, n=2**14, r=8, p=1, dklen=32)
+
   
 def main_menu():
   console = Console()
