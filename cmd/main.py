@@ -89,8 +89,9 @@ def main_menu():
 
     if choice == "1":
       path = input("Enter the path of the file to encrypt: ")
+      password = input("Enter password: ")
       if os.path.exists(path):
-        encrypted_path = encrypt_item(path)
+        encrypted_path = encrypt_item(path, password)
         console.print(f"{path} encrypted and saved as {encrypted_path}", style="green")
         input("Press Enter to continue...")
       else:
@@ -106,7 +107,7 @@ def main_menu():
       table = Table(show_header=True, header_style="bold magenta")
       table.add_column("File", style="dim", width=int(terminal_width * 0.5), justify="center")
       table.add_column("Status", style="dim", width=int(terminal_width * 0.5), justify="center")
-      for item in encrypted_items:
+      for item in encrypted_list:
         table.add_row(item, "Encrypted", style="green")
       console.print(table)
       input("\nPress Enter to continue...")
@@ -115,19 +116,46 @@ def main_menu():
       os.system("clear" if not os.name == 'nt' else "cls")
       console.print(ascii_art, justify="center", style="#D3869B bold")
       console.print("[cyan]:: Decrypt Items ::[cyan]\n", justify="center", end="")
-    
-      for idx, item in enumerate(encrypted_items):
-        console.print(f"{idx + 1}. {item}")
-    
-      decrypt_choice = input("Enter the number of the item to decrypt: ")
-    
-      if decrypt_choice.isdigit() and int(decrypt_choice) >= 1 and int(decrypt_choice) <= len(encrypted_items):
-        item_index = int(decrypt_choice) - 1
-        decrypted_path = decrypt_item(encrypted_items[item_index])
-        console.print(f"{encrypted_items[item_index]} decrypted and saved as {decrypted_path}", style="green")
-        input("Press Enter to continue...")
 
+      if not len(encrypted_list) > 0:
+        path = input("Enter the path of the file to decrypt: ")
+        password = input("Enter password: ")
+        if os.path.exists(path):
+            decrypted_path = decrypt_item(path, password)
+            console.print(f"{path} decrypted and saved as {decrypted_path}", style="green")
+            input("Press Enter to continue...")
+        else:
+            console.print("File not found.", style=red_bold)
+            input("Press Enter to continue...")
+
+      else:
+        for idx, item in enumerate(encrypted_list):
+            console.print(f"{idx + 1}. {item}")
+        
+        decrypt_choice = input("Enter the number of the item to decrypt: ")
+        password = input("Enter password: ")
+        
+        if decrypt_choice.isdigit() and int(decrypt_choice) >= 1 and int(decrypt_choice) <= len(encrypted_list):
+            item_index = int(decrypt_choice) - 1
+            decrypted_path = decrypt_item(encrypted_list[item_index], password)
+            console.print(f"{encrypted_list[item_index]} decrypted and saved as {decrypted_path}", style="green")
+            input("Press Enter to continue...")
+    
     elif choice == "4":
+      os.system("clear" if not os.name == 'nt' else "cls")
+      console.print(ascii_art, justify="center", style="#D3869B bold")
+      console.print("[cyan]:: Decrypted Items ::[cyan]\n", justify="center", end="")
+      terminal_width = console.width
+
+      table = Table(show_header=True, header_style="bold magenta")
+      table.add_column("File", style="dim", width=int(terminal_width * 0.5), justify="center")
+      table.add_column("Status", style="dim", width=int(terminal_width * 0.5), justify="center")
+      for item in decrypted_list:
+        table.add_row(item, "Decrypted", style="green")
+      console.print(table)
+      input("\nPress Enter to continue...")
+
+    elif choice == "5":
       sys.exit(0)
     else:
       console.print("Invalid choice. Please choose a valid option.", style=red_bold)
