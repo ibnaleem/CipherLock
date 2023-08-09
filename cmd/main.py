@@ -49,6 +49,11 @@ def decrypt_item(path, password):
 
     # Read data
     encrypted_data = encrypted_file.read()
+
+    salt = encrypted_data[:AES.block_size] # Obtain salt
+    tag = encrypted_data[AES.block_size:AES.block_size+16] # Obtain tag
+    ciphertext = encrypted_data[AES.block_size+16] # Obtain ciphertext
+
   
 def main_menu():
   console = Console()
