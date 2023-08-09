@@ -40,7 +40,7 @@ def encrypt_item(path, password):
     cipher_config = AES.new(private_key, AES.MODE_GCM)
 
     # Encrypt data
-    encrypted_data, tag = cipher_config.encrypt_and_digest(bytes(data, 'utf-8'))
+    encrypted_data, tag = cipher_config.encrypt_and_digest(data)
 
     with open(path, "wb") as encrypted_file:  # Open the original file for writing
         encrypted_file.write(salt + tag + encrypted_data)
