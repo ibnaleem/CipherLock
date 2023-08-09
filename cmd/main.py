@@ -55,7 +55,6 @@ def decrypt_item(path, password):
     encrypted_data = encrypted_file.read()
 
     salt = encrypted_data[:AES.block_size] # Obtain salt
-    tag = encrypted_data[AES.block_size:AES.block_size+16] # Obtain tag
     ciphertext = encrypted_data[AES.block_size+16] # Obtain ciphertext
 
     # Use Scrypt KDF to obtain a private key from the password
