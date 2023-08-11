@@ -55,7 +55,7 @@ def decrypt_item(path, key):
 
     decrypted_data = f.decrypt(encrypted_data)
 
-    with open(path, "w") as decrypted_file:
+    with open(path, "wb") as decrypted_file:
         decrypted_file.write(decrypted_data)
 
     return path
