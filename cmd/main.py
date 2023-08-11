@@ -1,7 +1,5 @@
 import os, sys, hashlib
-from base64 import b64encode, b64decode
-from Cryptodome.Cipher import AES
-from Cryptodome.Random import get_random_bytes
+from cryptography.fernet import Fernet
 from rich.console import Console
 from rich.table import Table
 from rich.style import Style
@@ -24,25 +22,25 @@ ascii_art = '''
 encrypted_list = []
 decrypted_list = []
 
-def encrypt_item(path, password):
+def encrypt_item(path, key=None):
+    cur_directory = os.getcwd()
+
     with open(path, "rb") as file:
         # Read data
         data = file.read()
     
-    # Generate a random salt
-    salt = get_random_bytes(AES.block_size)
+    if not key:
 
-    # Use Scrypt KDF to create a private key from the password
-    private_key = hashlib.scrypt(password.encode(), salt=salt, n=2**14, r=8, p=1, dklen=32)
+        key_file = os.path.join(cur_directory, "key.txt")
+        key = Fernet.generate_key()
+        with open(key_file, "wb") as j:
+            j.write(key)
+    
+    f = Fernet(key)
+    encrypted_data = f.encrypt(data)
 
-    # Create cipher config
-    cipher_config = AES.new(private_key, AES.MODE_GCM)
-
-    # Encrypt data
-    encrypted_data, tag = cipher_config.encrypt_and_digest(data)
-
-    with open(path, "wb") as encrypted_file:  # Open the original file for writing
-        encrypted_file.write(salt + tag + encrypted_data)
+    with open(path, "wb") as encrypted_file:
+        encrypted_file.write(encrypted_data)
 
     encrypted_list.append(path)
 
